@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo pacman -S corectrl droidcam freetube flat-remix-gtk github-desktop jellyfin-media-player kdeconnect-git noisetorch redshift virt-manager-meta visual-studio-code-bin discord signal-desktop simplenote-electron-bin spotify polybar alacritty rofi nextcloud-client awesome-terminal-fonts -y
