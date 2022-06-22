@@ -20,7 +20,7 @@ type = internal/i3
 pin-workspaces = true
 strip-wsnumbers = true
 index-sort = true
-enable-click = false
+enable-click = true
 enable-scroll = false
 wrapping-scroll = false
 reverse-scroll = false
@@ -29,47 +29,43 @@ reverse-scroll = false
 fuzzy-match = true
 format = <label-state> 
 label-focused = %name%
-label-focused-underline = ${color.white}
-label-focused-padding = 2
+label-focused-background = ${color.red}
+label-focused-foreground = ${color.black}
+
+label-focused-padding = 1
 
 label-unfocused = %name%
-label-unfocused-padding = 2
-label-unfocused-underline = ${color.black}
+label-unfocused-padding = 1
 
-label-visible-underline = ${color.white}
-label-visible-padding = 2
+label-visible-background = ${color.red}
+label-visible-padding = 1
 
-label-separator =|
-label-separator-padding = 2
+
 
     
 
 
 [module/vpn]
 type = custom/script
-exec = /home/admin/.config/polybar/scripts/polybar-protonvpn.sh
+exec = /home/user/.config/polybar/scripts/polybar-protonvpn.sh
 click-left = protonvpn
-click-right = nm-connection-editor
 interval = 10
 
 [module/update]
 type = custom/script
-exec = /home/admin/.config/polybar/scripts/update.sh
-click-left = pamac-manager
-click-right = pamac upgrade -a
+exec = /home/user/.config/polybar/scripts/update.sh
 interval = 5
 
-[module/gputemp]
+[module/cpuuse]
 type = custom/script
-exec = sensors | grep edge | cut -d + -f 2 | cut -d . -f1
-click-left = alacritty -e htop
-format = <label> ºC
+exec = /home/user/.config/polybar/scripts/cpu_usage
+format = <label> 
 
 [module/cputemp]
 type = custom/script
-exec = sensors | grep Tctl | cut -d + -f 2 | cut -d . -f1
-click-left = alacritty -e glances
-format = <label> ºC
+exec = /home/user/.config/polybar/scripts/temperature
+format = <label> 
+
 
 [module/memory]
   type = internal/memory
@@ -78,45 +74,74 @@ format = <label> ºC
 
 
 
-[bar/top2]
+
+[module/battery]
+type = internal/battery
+full-at = 99
+battery = BAT0
+adapter = AC
+poll-interval = 2
+format-charging = <label-charging>
+format-discharging = <label-discharging> 
+format-full = <label-full>
+label-charging ="%percentage%%"
+label-discharging ="%percentage%%"
+label-full ="100%"
+
+
+
+
+[module/wifi]
+type = internal/network
+interface = wlan0
+interval = 3.0
+unknown-as-up = true
+
+format-connected-padding = 1
+format-connected = %{A1:$HOME/.config/rofi/rofi-network-manager/rofi-network-manager.sh:} <label-connected>%{A}
+label-connected = %essid%
+format-disconnected-padding = 1
+format-disconnected = %{A1:$HOME/.config/rofi/rofi-network-manager/rofi-network-manager.sh:} <label-disconnected>%{A}
+label-disconnected =Disconnected
+
+
+[module/bluetooth]
+type = custom/script
+exec = $HOME/.config/rofi/rofi-bluetooth/rofi-bluetooth --status
+interval = 1
+click-left = $HOME/.config/rofi/rofi-bluetooth/rofi-bluetooth &
+
+[bar/top]
 width = 100%
-height = 25
 bottom = false
 monitor = ${env:MONITOR:}
-module-margin-left = 2
-module-margin-right = 2
+module-margin-left = 1
+module-margin-right = 1
 
 
-line-size = 4
+
 fixed-center = true
 background = ${color.black}
 foreground = ${color.white}
 
 
-padding-left = 5
-padding-right = 5
+padding-left = 1
+padding-right = 1
 
-font-0 = " SF Pro Display:style=Regular: size=12"
+font-0 = " FiraCode:size=12"
 font-1 = "Font Awesome 6 Free:style=solid:size=12"
 
 
 
-modules-left=    ewmh
-modules-center=    time
-modules-right=   memory gputemp cputemp update vpn
+modules-left=   ewmh wifi vpn update bluetooth
+modules-center= memory cpuuse cputemp  
+modules-right=   battery time
 
-
-
-
-
-[settings]
 screenchange-reload = true
-;compositing-background = xor
-;compositing-background = screen
+
 compositing-foreground = source
 compositing-border = over
 pseudo-transparency = true
 
-[global/wm]
 
 enable-ipc = true

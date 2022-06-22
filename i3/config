@@ -1,32 +1,17 @@
-
-
 set $mod Mod4
-
-
-font SF Pro Display: 12
-
-
-#font pango:DejaVu Sans Mono 8
-
-# Start XDG autostart .desktop files using dex. See also
-# https://wiki.archlinux.org/index.php/XDG_Autostart
 
 # Autostart
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock-fancy-multimonitor -p
 exec --no-startup-id nm-applet
-exec --no-startup-id lxsession 
-
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id blueman-applet 
-exec --no-startup-id flameshot 
 exec --no-startup-id protonvpn-cli connect --fastest 
 exec --no-startup-id thunderbird
-
 exec --no-startup-id dunst 
 
-exec --no-startup-id volumeicon 
-exec --no-startup-id $HOME/.config/i3/xrandr.sh
-exec --no-startup-id feh  --bg-fill /home/admin/Pictures/wallpaper.png
+# set wallpaper
+exec --no-startup-id sleep 2 && nitrogen --restore
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -42,25 +27,20 @@ bindsym XF86AudioStop exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 
 
+# Use pactl to adjust backlight with in brightnessctl.
+
+bindsym XF86MonBrightnessUp exec brightnessctl -c backlight s +25%
+bindsym XF86MonBrightnessDown exec brightnessctl -c backlight s 25%-
+
+bindsym $mod+F12 exec brightnessctl -c backlight s +25%
+bindsym $mod+F11 exec brightnessctl -c backlight s 25%-
+
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-	bindsym Mod1+t exec alacritty
-# start vpn
-	bindsym Mod1+p exec protonvpn
-	bindsym Mod1+Shift+p exec --no-startup-id protonvpn-cli connect --fastest 
-# looking glass
-	bindsym Mod1 +l  workspace  A;  exec looking-glass-client -f 
-
-	bindsym Mod1+f exec firefox
-	bindsym Mod1+c exec Galculator
-	bindsym Mod1+n exec nemo
-	bindsym Mod1+s exec spotify
-	bindsym Mod1+v exec  virt-manager
-
-
-
+	bindsym $mod+t exec alacritty
 
 
 # kill 
@@ -70,68 +50,42 @@ floating_modifier $mod
 	bindsym $mod+r exec --no-startup-id  $HOME/.config/i3/redshift-toggle.sh
 
 
-
 # start a program launcher
 	bindsym $mod+Shift+Return exec --no-startup-id dmenu_run
-	bindsym $mod+Return exec --no-startup-id rofi -show drun -columns 3
-
-	bindsym Print exec --no-startup-id flameshot full -p $HOME/Pictures
-	bindsym $mod+Print exec --no-startup-id flameshot gui
+	bindsym $mod+Return exec rofi -modi drun -show drun \
+		-config ~/.config/rofi/rofidmenu.rasi
+	bindsym $mod+b exec $HOME/.config/rofi/rofi-bluetooth/rofi-bluetooth
+	bindsym $mod+i exec $HOME/.config/rofi/rofi-network-manager/rofi-network-manager.sh
 
 
 # change focus
-	bindsym $mod+j focus left
-	bindsym $mod+k focus down
-	bindsym $mod+l focus up
-	bindsym $mod+odiaeresis focus right
+	bindsym $mod+Left focus left
+	bindsym $mod+Down focus down
+	bindsym $mod+Up focus up
+	bindsym $mod+Right focus right
 
 # resize focused window
-	bindsym $mod+Ctrl+j  resize shrink width 10 px or 10 ppt
-    bindsym $mod+Ctrl+k resize grow height 10 px or 10 ppt
-    bindsym $mod+Ctrl+l resize shrink height 10 px or 10 ppt
-    bindsym $mod+Ctrl+odiaeresis resize grow width 10 px or 10 ppt
+	bindsym $mod+Ctrl+Left  resize shrink width 10 px or 10 ppt
+    bindsym $mod+Ctrl+Up resize grow height 10 px or 10 ppt
+    bindsym $mod+Ctrl+Down resize shrink height 10 px or 10 ppt
+    bindsym $mod+Ctrl+Right resize grow width 10 px or 10 ppt
 
 # move focused window
-	bindsym $mod+Shift+j move left
-	bindsym $mod+Shift+k move down
-	bindsym $mod+Shift+l move up
-	bindsym $mod+Shift+odiaeresis move right
+	bindsym $mod+Shift+Left move left
+	bindsym $mod+Shift+Down move down
+	bindsym $mod+Shift+Up move up
+	bindsym $mod+Shift+Right move right
 
 
 
-# split in horizontal orientation
-bindsym $mod+Shift+space exec --no-startup-id $HOME/.config/i3/i3-layout-manager.sh
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
-
-#bindsym $mod+w layout tabbed
-#bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-#bindsym $mod+Shift+space floating toggle
+bindsym $mod+space floating toggle
 
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
-
-
-
-# Define names for default workspaces for which we configure key bindings later on.
-
-
-workspace 1 output DisplayPort-0
-workspace 2 output DisplayPort-0
-workspace 3 output DisplayPort-0
-workspace 4 output DisplayPort-0
-workspace 5 output DisplayPort-0
-workspace 6 output DisplayPort-0
-workspace W output HDMI-A-0
-workspace E output HDMI-A-0
-workspace A output DVI-D-0
-workspace S output DVI-D-0
-workspace D output DVI-D-0
 
 # switch to workspace
 
@@ -141,11 +95,7 @@ bindsym $mod+3 workspace  3
 bindsym $mod+4 workspace  4
 bindsym $mod+5 workspace  5
 bindsym $mod+6 workspace  6
-bindsym $mod+w workspace  W
-bindsym $mod+e workspace  E
-bindsym $mod+a workspace  A
-bindsym $mod+s workspace  S
-bindsym $mod+d workspace  D
+
 # move focused container to workspace
 
 bindsym $mod+Shift+1 move container to workspace 1, workspace  1
@@ -154,18 +104,14 @@ bindsym $mod+Shift+3 move container to workspace 3, workspace  3
 bindsym $mod+Shift+4 move container to workspace 4, workspace  4
 bindsym $mod+Shift+5 move container to workspace 5, workspace  5
 bindsym $mod+Shift+6 move container to workspace 6, workspace  6
-bindsym $mod+Shift+w move container to workspace W, workspace  W
-bindsym $mod+Shift+e move container to workspace E, workspace  E
-bindsym $mod+Shift+a move container to workspace A, workspace  A
-bindsym $mod+Shift+s move container to workspace S, workspace  S
-bindsym $mod+Shift+d move container to workspace D, workspace  D
 
-# class                                 border      backgr. text    indic.   child_border
- client.focused                   #f00000  #f00000      #ffffff    #f00000
- client.focused_inactive   #000000 #000000     #ffffff    #000000
- client.unfocused               #f00000  #000000     #ffffff   #000000
- client.urgent                      #f00000  #000000     #ffffff   #f00000
- client.placeholder             #f00000 #000000     #ffffff   #000000
+
+# class                  border      backgr. text    indic.   child_border
+ client.focused          #f00000  #f00000      #ffffff    #f00000
+ client.focused_inactive #000000 #000000     #ffffff    #000000
+ client.unfocused        #f00000  #000000     #ffffff   #000000
+ client.urgent           #f00000  #000000     #ffffff   #f00000
+ client.placeholder      #f00000 #000000     #ffffff   #000000
  client.background       #2B2C2B
 
 # reload the configuration file
@@ -181,7 +127,8 @@ default_border pixel 1
 
 assign [class="Thunderbird"] 6
 assign [class="corectrl"] 6
-for_window [class="Galculator"] floating enable
-
+for_window [class="Alacritty"] floating enable
+for_window [class="Nemo"] floating enable
+for_window [window_role="About"] floating enable
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
