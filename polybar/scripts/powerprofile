@@ -1,0 +1,11 @@
+#!/bin/sh
+
+profile=$(powerprofilesctl get)
+
+if [ $profile = "power-saver" ]; then
+	echo ""
+elif [ $profile = "performance" ]; then
+	echo ""
+else
+ echo ""
+fi

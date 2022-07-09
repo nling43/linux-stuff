@@ -4,17 +4,14 @@
  *******************************************************/
 
 configuration {
-    font:                           "Noto Sans Regular 10";
+    font:                           "Fira code Regular 14";
     show-icons:                     false;
-    icon-theme: 					"Qogir";
+    icon-theme: 		    "Qogir";
     scroll-method:                  0;
     disable-history:                false;
-    fullscreen:                     false;
-	hide-scrollbar: 				true;
-	sidebar-mode: 					false;
+    sidebar-mode: 		    false;
 }
-
-@import "~/.config/rofi/arc_dark_colors.rasi"
+@import "~/.config/rofi/arc_dark_transparent_colors.rasi"
 
 
 window {
@@ -22,8 +19,8 @@ window {
     border:                         0;
     padding:                        10;
     transparency:                   "real";
-    width:                          170px;
-    location:                       east;
+    width:                          340px;
+    location:                       center;
     /*y-offset:                       18;*/
     /*x-offset:	                    850;*/
 }

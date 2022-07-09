@@ -67,6 +67,12 @@ exec = /home/user/.config/polybar/scripts/temperature
 format = <label> 
 
 
+[module/powerprofile]
+type = custom/script
+exec = /home/user/.config/polybar/scripts/powerprofile
+format = <label> 
+
+
 [module/memory]
   type = internal/memory
   interval = 2
@@ -134,7 +140,7 @@ font-1 = "Font Awesome 6 Free:style=solid:size=12"
 
 
 modules-left=   ewmh wifi vpn update bluetooth
-modules-center= memory cpuuse cputemp  
+modules-center= memory cpuuse cputemp  powerprofile
 modules-right=   battery time
 
 screenchange-reload = true
